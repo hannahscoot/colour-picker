@@ -1,0 +1,31 @@
+
+<div>Current Count: {{ count$ | async }}</div>
+
+<button class="border m-2 p-2" (click)="increment()">Increment</button>
+
+<button class="border m-2 p-2" (click)="decrement()">Decrement</button>
+
+<button class="border m-2 p-2" (click)="reset()">Reset Counter</button>
+
+<table> <!-- Convert table into primeNG table -->
+    <tr *ngFor="let colour of colourList; let i = index; trackBy:trackByIndex;"> <!--two way binding works if you add trackBy:trackByIndex-->
+        <td>
+            <p-colorPicker [(ngModel)]="colourList[i]"></p-colorPicker>
+        </td>
+        <td>
+            {{colour}}
+        </td>
+        <td>
+            <button class="border rounded px-2.5 py-1" (click)="removeColour(i)">x</button>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <span>
+                <button class="border rounded w-full" (click)="addNewColour()">+</button>
+            </span>
+        </td>
+        <td></td>
+    </tr>
+</table>
