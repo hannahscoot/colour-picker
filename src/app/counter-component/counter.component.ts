@@ -1,7 +1,8 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
 import { increment, decrement, reset } from "../counter-store/counter.action";
+import { ColourZone } from "../model/ColourZone";
 
 @Component({
     selector: 'app-counter',
@@ -32,21 +33,40 @@ export class CounterComponent {
     *   This is the code for the colour picker (Below)
     * 
     */
-    color : string = '#545454';
-    colourList: string[] = ['#FFFFFF'];
+    colour: string = '#ffffff';
+    locationList: string[] = ['Header', 'Sidebar', 'Highlight', 'Background', 'Text', 'Foreground', 'Logo', 'Secondary Logo', 'Primary', 'Secondary'];
+    themeList: ColourZone[] = [
+        {'colour':'#363C47', 'location':'Sidebar'},
+        {'colour':'#6B84D1', 'location':'Highlight'},
+        {'colour':'#00B3E1', 'location':'Logo'},
+        {'colour':'#FDCB04', 'location':'Secondary Logo'},
+        {'colour':'#ACB9CF', 'location':'Text'},
+        {'colour':'#FFFFFF', 'location':'Background'},
+        {'colour':'#FFFFFF', 'location':'Foreground'},
+        {'colour':'#6080A9', 'location':'Primary'},
+        {'colour':'#A3B02A', 'location':'Secondary'}
+    ];
 
     addNewColour() {
-        this.colourList.push("#FFFFFF");
+        this.themeList.push({'colour':'#FFFFFF', 'location':'none'});
     }
 
     removeColour(index: number) {
-        if (this.colourList.length > 1) {
-            this.colourList.splice(index,1);
+        if (this.themeList.length > 1) {
+            this.themeList.splice(index,1);
         }
     }
 
-    trackByIndex(index: number, obj: any): any { //the two way binding works with this function
-        return index;
+    update(index: number) {
+        this.themeList[index].colour = this.colour;
+        this.colour = '#ffffff';
     }
 
+    upload() {
+        
+    }
+
+    save() {
+
+    }
 }
