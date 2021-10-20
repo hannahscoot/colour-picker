@@ -3,6 +3,27 @@
         <div class="text-3xl pr-10">
             Theme Creator
         </div>
+        <button class="border rounded flex items-center justify-center px-2 py-1 bg-blue-700 text-white" (click)="normalSiteTheme()">
+            <span class="pi pi-download"></span>
+            <span class="text-lg">
+                &nbsp;&nbsp;Normal Site
+            </span>
+        </button>
+        <button class="border rounded flex items-center justify-center px-2 py-1 bg-blue-700 text-white" (click)="testSiteTheme()">
+            <span class="pi pi-download"></span>
+            <span class="text-lg">
+                &nbsp;&nbsp;Test Site
+            </span>
+        </button>
+        <div class="flex ">
+            <input class="mx-2 p-1 border rounded text-right" placeholder=".json ">
+            <button class="border rounded flex items-center justify-center px-2 py-1 bg-blue-700 text-white" (click)="save()">
+                <span class="pi pi-save"></span>
+                <span class="text-lg">
+                    &nbsp;&nbsp;Save
+                </span>
+            </button>
+        </div>
         <button class="border rounded flex items-center justify-center px-2 py-1 bg-blue-700 text-white" (click)="upload()">
             <span class="pi pi-upload"></span>
             <span class="text-lg">
@@ -64,7 +85,7 @@
                 </td>
                 <td>
                     <div class="flex justify-around">
-                        <button class="bg-green-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="!editing" (click)="onRowEditInit(themeList[index].location)">
+                        <button class="bg-green-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="!editing" (click)="onRowEditInit(themeList[index])">
                             <span class="pi pi-pencil"></span>
                         </button>
                         <button class="bg-red-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="!editing" (click)="removeColour(index)">
@@ -81,20 +102,4 @@
             </tr>
         </ng-template>
     </p-table>
-</div>
-<div class="flex justify-between items-center px-64 pb-10">
-    <div class="">
-        Copyright©2021
-    </div>
-    <div class="">
-        <div class="flex ">
-            <input class="mx-2 p-1 border rounded" placeholder=" .json">
-            <button class="border rounded flex items-center justify-center px-2 py-1 bg-blue-700 text-white" (click)="save()">
-                <span class="pi pi-save"></span>
-                <span class="text-lg">
-                    &nbsp;&nbsp;Save
-                </span>
-            </button>
-        </div>
-    </div>
 </div>

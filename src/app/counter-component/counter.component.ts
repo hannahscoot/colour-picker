@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
 import { increment, decrement, reset } from "../counter-store/counter.action";
 import { ColourZone } from "../model/ColourZone";
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-counter',
@@ -35,9 +36,23 @@ export class CounterComponent {
     */
     editing: boolean = false;
     colour: string = '#ffffff';
-    previousLocation: string = '';
     locationList: string[] = ['Header', 'Sidebar', 'Highlight', 'Background', 'Text', 'Foreground', 'Logo', 'Secondary Logo', 'Primary', 'Secondary'];
-    themeList: ColourZone[] = [
+    themeList: ColourZone[] = [];
+    previousStateZone: ColourZone = new ColourZone();
+
+    testSiteThemePreset: ColourZone[] = [
+        {'colour':'#800020', 'location':'Sidebar'},
+        {'colour':'#6B84D1', 'location':'Highlight'},
+        {'colour':'#FEFEFE', 'location':'Logo'},
+        {'colour':'#ACB8CE', 'location':'Secondary Logo'},
+        {'colour':'#8E9F9E', 'location':'Text'},
+        {'colour':'#FEFEFE', 'location':'Background'},
+        {'colour':'#E8E8E8', 'location':'Foreground'},
+        {'colour':'#AA4C64', 'location':'Primary'},
+        {'colour':'#F26C8E', 'location':'Secondary'}
+    ]
+
+    normalSiteThemePreset: ColourZone[] = [
         {'colour':'#363C47', 'location':'Sidebar'},
         {'colour':'#6B84D1', 'location':'Highlight'},
         {'colour':'#00B3E1', 'location':'Logo'},
@@ -48,6 +63,10 @@ export class CounterComponent {
         {'colour':'#6080A9', 'location':'Primary'},
         {'colour':'#A3B02A', 'location':'Secondary'}
     ];
+
+    ngOnInit() {
+        this.normalSiteTheme();
+    }
 
     addNewColour() {
         this.themeList.push({'colour':'#FFFFFF', 'location':'none'});
@@ -64,6 +83,15 @@ export class CounterComponent {
         this.colour = '#ffffff';
     }
 
+    testSiteTheme() {
+        this.themeList = _.cloneDeep(this.testSiteThemePreset);
+    }
+
+    normalSiteTheme() {
+        this.themeList = _.cloneDeep(this.normalSiteThemePreset);
+    }
+
+
     upload() {
 
     }
@@ -72,17 +100,19 @@ export class CounterComponent {
 
     }
 
-    onRowEditInit(location: string) {
-        this.previousLocation = location;
+    onRowEditInit(previousZone: ColourZone) {
+        this.previousStateZone = _.cloneDeep(previousZone);
         this.editing = true;
     }
 
     onRowEditCancel(index: number) {
-        this.themeList[index].location = this.previousLocation;
+        this.themeList[index] = _.cloneDeep(this.previousStateZone);
+        this.previousStateZone = new ColourZone();
         this.editing = false;
     }
 
     onRowEditConfirm() {
+        this.previousStateZone = new ColourZone();
         this.editing = false;
     }
 
