@@ -33,7 +33,9 @@ export class CounterComponent {
     *   This is the code for the colour picker (Below)
     * 
     */
+    editing: boolean = false;
     colour: string = '#ffffff';
+    previousLocation: string = '';
     locationList: string[] = ['Header', 'Sidebar', 'Highlight', 'Background', 'Text', 'Foreground', 'Logo', 'Secondary Logo', 'Primary', 'Secondary'];
     themeList: ColourZone[] = [
         {'colour':'#363C47', 'location':'Sidebar'},
@@ -63,10 +65,25 @@ export class CounterComponent {
     }
 
     upload() {
-        
+
     }
 
     save() {
 
     }
+
+    onRowEditInit(location: string) {
+        this.previousLocation = location;
+        this.editing = true;
+    }
+
+    onRowEditCancel(index: number) {
+        this.themeList[index].location = this.previousLocation;
+        this.editing = false;
+    }
+
+    onRowEditConfirm() {
+        this.editing = false;
+    }
+
 }

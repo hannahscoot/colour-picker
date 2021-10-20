@@ -11,6 +11,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { BadgeModule } from 'primeng/badge';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 
 @NgModule({
@@ -24,6 +25,7 @@ import { TableModule } from 'primeng/table';
     FormsModule,
     BadgeModule,
     ColorPickerModule,
+    DropdownModule,
     TableModule,
     StoreModule.forRoot({ count: counterReducer })
   ],

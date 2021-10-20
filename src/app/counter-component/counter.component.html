@@ -47,7 +47,12 @@
                     </div>
                 </td>
                 <td>
-                    <div>
+                    <div *ngIf="editing">
+                        <select [(ngModel)]="themeList[index].location">
+                            <option *ngFor="let option of locationList" [value]="option">{{option}}</option> <!--- Change this to filter out ones already filled --->
+                        </select>
+                    </div>
+                    <div *ngIf="!editing">
                         {{themeList[index].location}}
                     </div>
                 </td>
@@ -59,11 +64,17 @@
                 </td>
                 <td>
                     <div class="flex justify-around">
-                        <button class="bg-green-400 rounded p-2 flex align-middle justify-center text-white">
+                        <button class="bg-green-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="!editing" (click)="onRowEditInit(themeList[index].location)">
                             <span class="pi pi-pencil"></span>
                         </button>
-                        <button class="bg-red-400 rounded p-2 flex align-middle justify-center text-white" (click)="removeColour(index)">
+                        <button class="bg-red-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="!editing" (click)="removeColour(index)">
                             <span class="pi pi-times"></span>
+                        </button>
+                        <button class="bg-green-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="editing" (click)="onRowEditConfirm()">
+                            <span class="pi pi-check-circle"></span>
+                        </button>
+                        <button class="bg-red-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="editing" (click)="onRowEditCancel(index)">
+                            <span class="pi pi-times-circle"></span>
                         </button>
                     </div>
                 </td>
