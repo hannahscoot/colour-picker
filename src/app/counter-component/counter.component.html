@@ -41,13 +41,10 @@
     </div>
 </div>
 <div class="p-10 px-56">
-    <p-table [value]="themeList" [resizableColumns]="true" responsiveLayout="scroll" styleClass="p-datatable-gridlines">
+    <p-table [value]="themeList" [resizableColumns]="true" responsiveLayout="scroll" styleClass="p-datatable-gridlines" editMode="row" dataKey="id">
         <ng-template pTemplate="header" let-columns>
             <tr>
                 <th style="width:3rem"></th>
-                <th style="width:3rem">
-                    Colour Picker
-                </th>
                 <th pResizableColumn>
                     Location
                 </th>
@@ -57,44 +54,58 @@
                 <th style="width:8rem" pResizableColumn></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
-            <tr pResizableRow [pReorderableRow]="index">
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex" let-editing="editing" let-theme>
+            <tr pResizableRow [pReorderableRow]="index" [pEditableRow]="theme">
                 <td>
                     <span class="pi pi-bars" [pReorderableRowHandle]="index"></span>
                 </td>
-                <td>
-                    <div class="flex justify-center">
-                        <p-colorPicker [(ngModel)]="colour" appendTo="body" (onHide)="update(index)"></p-colorPicker>
-                    </div>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <select [(ngModel)]="theme.location">
+                                <option *ngFor="let option of locationList" [value]="option">{{option}}</option> <!--- Change this to filter out ones already filled --->
+                            </select>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{theme.location}}
+                        </ng-template>
+                    </p-cellEditor>
                 </td>
-                <td>
-                    <div *ngIf="editing">
-                        <select [(ngModel)]="themeList[index].location">
-                            <option *ngFor="let option of locationList" [value]="option">{{option}}</option> <!--- Change this to filter out ones already filled --->
-                        </select>
-                    </div>
-                    <div *ngIf="!editing">
-                        {{themeList[index].location}}
-                    </div>
-                </td>
-                <td class="font-mono">
-                    <div>
-                        {{themeList[index].colour}}
-                        <div class="p-2 w-2 border max-w-xs" [style.background-color]="themeList[index].colour" [id]="index"></div>
-                    </div>
+                <td class="font-mono" pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <div class="flex flex-row">
+                                <div class="pt-2 pr-10">
+                                    <p-colorPicker [(ngModel)]="colour" appendTo="body" (onHide)="update(index)"></p-colorPicker>
+                                </div>
+                                <div>
+                                    {{theme.colour}}
+                                    <div class="p-2 w-2 border" [style.background-color]="theme.colour" [id]="index"></div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            <div class="flex flex-row">
+                                <div>
+                                    {{theme.colour}}
+                                    <div class="p-2 w-2 border" [style.background-color]="theme.colour" [id]="index"></div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-cellEditor>
                 </td>
                 <td>
                     <div class="flex justify-around">
-                        <button class="bg-green-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="!editing" (click)="onRowEditInit(themeList[index])">
+                        <button class="bg-green-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="!editing" (click)="onRowEditInit(theme)" pInitEditableRow [disabled]="edit">
                             <span class="pi pi-pencil"></span>
                         </button>
-                        <button class="bg-red-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="!editing" (click)="removeColour(index)">
+                        <button class="bg-red-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="!editing" (click)="removeColour(index)" [disabled]="edit">
                             <span class="pi pi-times"></span>
                         </button>
-                        <button class="bg-green-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="editing" (click)="onRowEditConfirm()">
+                        <button class="bg-green-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="editing" (click)="onRowEditConfirm()" pSaveEditableRow>
                             <span class="pi pi-check-circle"></span>
                         </button>
-                        <button class="bg-red-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="editing" (click)="onRowEditCancel(index)">
+                        <button class="bg-red-400 rounded p-2 flex align-middle justify-center text-white" *ngIf="editing" (click)="onRowEditCancel(index)" pCancelEditableRow>
                             <span class="pi pi-times-circle"></span>
                         </button>
                     </div>
